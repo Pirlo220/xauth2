@@ -1,4 +1,8 @@
-# xauth2 - A Fork of vue-authenticate that works in Electron
+# XAuth2 - Electron OAuth2 Client
+
+A Fork of vue-authenticate that (hopefully) works in Electron.
+
+---------------------
 
 **vue-authenticate** is easily configurable solution for [Vue.js](https://vuejs.org/) that provides local login/registration as well as Social login using Github, Facebook, Google and other OAuth providers.
 
