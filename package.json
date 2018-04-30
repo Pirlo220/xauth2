@@ -1,7 +1,7 @@
 {
-  "name": "vue-authenticate",
-  "version": "1.3.5-beta.1",
-  "description": "Authentication library for Vue.js",
+  "name": "xauth2",
+  "version": "1.4.0",
+  "description": "Authentication library for electron-vue",
   "main": "dist/vue-authenticate.js",
   "module": "dist/vue-authenticate.es2015.js",
   "unpkg": "dist/vue-authenticate.js",
@@ -12,16 +12,17 @@
   "keywords": [
     "vue",
     "vuejs",
-    "auth"
+    "auth",
+    "electron"
   ],
   "author": {
-    "name": "Davor Grubelic",
-    "email": "davor.grubelic@gmail.com",
-    "url": "https://dgrubelic.me"
+    "name": "Xander Luciano",
+    "email": "XanderLuciano@gmail.com",
+    "url": "https://NCViewer.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dgrubelic/vue-authenticate.git"
+    "url": "https://github.com/XanderLuciano/xauth2.git"
   },
   "license": "MIT",
   "devDependencies": {
@@ -60,20 +61,20 @@
     "webpack-dev-server": "^2.4.2"
   },
   "tags": [
+    "vuejs",
+    "oauth2",
+    "oauth",
     "auth",
     "authentication",
+    "electron",
     "login",
     "registration",
     "jwt",
     "token",
-    "vuejs",
-    "vue.js",
     "github",
     "facebook",
     "google",
     "twitter",
-    "oauth",
-    "oauth 1.0",
     "oauth 2.0"
   ]
 }
