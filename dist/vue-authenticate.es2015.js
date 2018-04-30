@@ -124,7 +124,7 @@ function joinUrl(baseUrl, url) {
  * @return {String}
  */
 function getFullUrlPath(location) {
-  return location;
+  return location.replace(/(\?code.*)/i, '');
 }
 
 /**
@@ -862,7 +862,8 @@ OAuthPopup.prototype.pooling = function pooling (redirectUri) {
   return new Promise$1(function (resolve, reject) {
     var redirectUriParser = document.createElement('a');
     redirectUriParser.href = redirectUri;
-    var redirectUriPath = getFullUrlPath(redirectUriParser);
+    // const redirectUriPath = getFullUrlPath(redirectUriParser)
+    var redirectUriPath = redirectUri;
 
     var poolingInterval = setInterval(function () {
       if (!this$1.popup || this$1.popup.closed || this$1.popup.closed === undefined) {
@@ -872,12 +873,15 @@ OAuthPopup.prototype.pooling = function pooling (redirectUri) {
       }
 
       try {
-        var popupWindowPath = getFullUrlPath(this$1.popup.location);
+        var pLocation = document.createElement('a');
+        pLocation.href = this$1.popup.location;
+
+        var popupWindowPath = getFullUrlPath(pLocation.href);
 
         if (popupWindowPath === redirectUriPath) {
-          if (this$1.popup.location.search || this$1.popup.location.hash) {
-            var query = parseQueryString(this$1.popup.location.search.substring(1).replace(/\/$/, ''));
-            var hash = parseQueryString(this$1.popup.location.hash.substring(1).replace(/[\/$]/, ''));
+          if (pLocation.search || pLocation.hash) {
+            var query = parseQueryString(pLocation.search.substring(1).replace(/\/$/, ''));
+            var hash = parseQueryString(pLocation.hash.substring(1).replace(/[\/$]/, ''));
             var params = objectExtend({}, query);
             params = objectExtend(params, hash);
 

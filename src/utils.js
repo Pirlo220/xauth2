@@ -125,7 +125,7 @@ export function getFullUrlPathNative(location) {
  * @return {String}
  */
 export function getFullUrlPath(location) {
-  return location;
+  return location.replace(/(\?code.*)/i, '');
 }
 
 /**

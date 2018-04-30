@@ -40,7 +40,8 @@ export default class OAuthPopup {
     return new Promise((resolve, reject) => {
       const redirectUriParser = document.createElement('a')
       redirectUriParser.href = redirectUri
-      const redirectUriPath = getFullUrlPath(redirectUriParser)
+      // const redirectUriPath = getFullUrlPath(redirectUriParser)
+      const redirectUriPath = redirectUri
 
       let poolingInterval = setInterval(() => {
         if (!this.popup || this.popup.closed || this.popup.closed === undefined) {
@@ -50,12 +51,15 @@ export default class OAuthPopup {
         }
 
         try {
-          const popupWindowPath = getFullUrlPath(this.popup.location)
+          const pLocation = document.createElement('a')
+          pLocation.href = this.popup.location
+
+          const popupWindowPath = getFullUrlPath(pLocation.href)
 
           if (popupWindowPath === redirectUriPath) {
-            if (this.popup.location.search || this.popup.location.hash) {
-              const query = parseQueryString(this.popup.location.search.substring(1).replace(/\/$/, ''));
-              const hash = parseQueryString(this.popup.location.hash.substring(1).replace(/[\/$]/, ''));
+            if (pLocation.search || pLocation.hash) {
+              const query = parseQueryString(pLocation.search.substring(1).replace(/\/$/, ''));
+              const hash = parseQueryString(pLocation.hash.substring(1).replace(/[\/$]/, ''));
               let params = objectExtend({}, query);
               params = objectExtend(params, hash)
 
