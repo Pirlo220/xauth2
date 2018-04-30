@@ -1,6 +1,6 @@
 {
   "name": "xauth2",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Authentication library for electron-vue",
   "main": "dist/vue-authenticate.js",
   "module": "dist/vue-authenticate.es2015.js",
