@@ -1,8 +1,4 @@
-[**WARNING**]: README file is currently in process of rewrite and will be released soon.
-
-# vue-authenticate
-
-[![Join the chat at https://gitter.im/vuejs-auth/vue-authenticate](https://badges.gitter.im/vue-authenticate/Lobby.svg)](https://gitter.im/vuejs-auth/vue-authenticate?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# xauth2 - A Fork of vue-authenticate that works in Electron
 
 **vue-authenticate** is easily configurable solution for [Vue.js](https://vuejs.org/) that provides local login/registration as well as Social login using Github, Facebook, Google and other OAuth providers.
 
