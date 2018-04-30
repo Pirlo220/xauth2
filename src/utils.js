@@ -101,7 +101,7 @@ export function joinUrl(baseUrl, url) {
 }
 
 /**
- * Get full path based on current location
+ * Get full path based on current location when using native window.open
  * 
  * @author Sahat Yalkabov <https://github.com/sahat>
  * @copyright Method taken from https://github.com/sahat/satellizer
@@ -109,11 +109,23 @@ export function joinUrl(baseUrl, url) {
  * @param  {Location} location
  * @return {String}
  */
-export function getFullUrlPath(location) {
+export function getFullUrlPathNative(location) {
   const isHttps = location.protocol === 'https:';
   return location.protocol + '//' + location.hostname +
     ':' + (location.port || (isHttps ? '443' : '80')) +
     (/^\//.test(location.pathname) ? location.pathname : '/' + location.pathname);
+}
+
+/**
+ * Get full path based on current location when using Electron
+ * 
+ * @author Xander Luciano <https://github.com/XanderLuciano>
+ * 
+ * @param  {Location} location
+ * @return {String}
+ */
+export function getFullUrlPath(location) {
+  return location;
 }
 
 /**
