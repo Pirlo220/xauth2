@@ -161,6 +161,65 @@ export default {
       popupOptions: { width: 500, height: 560 }
     },
 
+    twitch: {
+      name: 'twitch',
+      url: '/auth/twitch',
+      authorizationEndpoint: 'https://api.twitch.tv/kraken/oauth2/authorize',
+      redirectUri: window.location.origin,
+      requiredUrlParams: ['scope'],
+      scope: ['user:read:email', 'user_follows_edit', 'user_subscriptions'],
+      scopeDelimiter: '+',
+      oauthType: '2.0',
+      popupOptions: { width: 500, height: 560 }
+    },
+
+    youtube: {
+      name: 'youtube',
+      url: '/auth/youtube',
+      authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
+      redirectUri: window.location.origin,
+      requiredUrlParams: ['scope'],
+      optionalUrlParams: ['display', 'access_type'],
+      scope: ['https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/userinfo.email'],
+      scopePrefix: 'openid',
+      scopeDelimiter: ' ',
+      display: 'popup',
+      oauthType: '2.0',
+      popupOptions: { width: 452, height: 633 }
+    },
+
+    streamlabs: {
+      name: 'streamlabs',
+      url: '/auth/streamlabs',
+      authorizationEndpoint: 'https://streamlabs.com/api/v1.0/authorize',
+      redirectUri: window.location.origin,
+      requiredUrlParams: ['scope'],
+      scope: ['donations.create', 'donations.read'],
+      scopeDelimiter: ' ',
+      oauthType: '2.0',
+      popupOptions: { width: 1020, height: 700 }
+    },
+
+    streamtip: {
+      name: 'streamtip',
+      url: '/auth/streamtip',
+      authorizationEndpoint: 'https://streamtip.com/api/oauth2/authorize',
+      redirectUri: window.location.origin,
+      oauthType: '2.0',
+      popupOptions: { width: 1020, height: 700 }
+    },
+
+    stripe: {
+      name: 'stripe',
+      url: '/auth/stripe',
+      authorizationEndpoint: 'https://connect.stripe.com/oauth/authorize',
+      redirectUri: window.location.origin,
+      requiredUrlParams: ['response_type', 'client_id', 'scope'],
+      display: 'popup',
+      oauthType: '2.0',
+      popupOptions: { width: 500, height: 560 }
+    },
+
     oauth1: {
       name: null,
       url: '/auth/oauth1',
