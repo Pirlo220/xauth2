@@ -1,5 +1,5 @@
 /*!
- * vue-authenticate v1.3.5-beta.1
+ * vue-authenticate v1.4.0
  * https://github.com/dgrubelic/vue-authenticate
  * Released under the MIT License.
  */
@@ -111,7 +111,7 @@ function joinUrl(baseUrl, url) {
 }
 
 /**
- * Get full path based on current location
+ * Get full path based on current location when using native window.open
  * 
  * @author Sahat Yalkabov <https://github.com/sahat>
  * @copyright Method taken from https://github.com/sahat/satellizer
@@ -119,11 +119,18 @@ function joinUrl(baseUrl, url) {
  * @param  {Location} location
  * @return {String}
  */
+
+
+/**
+ * Get full path based on current location when using Electron
+ * 
+ * @author Xander Luciano <https://github.com/XanderLuciano>
+ * 
+ * @param  {Location} location
+ * @return {String}
+ */
 function getFullUrlPath(location) {
-  var isHttps = location.protocol === 'https:';
-  return location.protocol + '//' + location.hostname +
-    ':' + (location.port || (isHttps ? '443' : '80')) +
-    (/^\//.test(location.pathname) ? location.pathname : '/' + location.pathname);
+  return location;
 }
 
 /**
@@ -484,6 +491,7 @@ Promise$1._setUnhandledRejectionFn = function _setUnhandledRejectionFn(fn) {
   Promise$1._unhandledRejectionFn = fn;
 };
 
+// TODO: This is likely the wrong window location
 function getCookieDomainUrl() {
   try {
     return window.location.hostname
@@ -492,6 +500,7 @@ function getCookieDomainUrl() {
   return '';
 }
 
+// TODO: This is likely the wrong window location
 function getRedirectUri(uri) {
   try {
     return (!isUndefined(uri))
@@ -833,6 +842,8 @@ var OAuthPopup = function OAuthPopup(url, name, popupOptions) {
   this.popupOptions = popupOptions;
 };
 
+// Create popup window
+// TODO: Call electron window instead of native window
 OAuthPopup.prototype.open = function open (redirectUri, skipPooling) {
   try {
     this.popup = window.open(this.url, this.name, this._stringifyOptions());
@@ -850,6 +861,7 @@ OAuthPopup.prototype.open = function open (redirectUri, skipPooling) {
   }
 };
 
+// Check if Authentication has completed
 OAuthPopup.prototype.pooling = function pooling (redirectUri) {
     var this$1 = this;
 

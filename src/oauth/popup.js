@@ -16,6 +16,8 @@ export default class OAuthPopup {
     this.popupOptions = popupOptions
   }
 
+  // Create popup window
+  // TODO: Call electron window instead of native window
   open(redirectUri, skipPooling) {
     try {
       this.popup = window.open(this.url, this.name, this._stringifyOptions())
@@ -33,6 +35,7 @@ export default class OAuthPopup {
     }
   }
 
+  // Check if Authentication has completed
   pooling(redirectUri) {
     return new Promise((resolve, reject) => {
       const redirectUriParser = document.createElement('a')

@@ -1,5 +1,6 @@
 import { isUndefined } from './utils';
 
+// TODO: This is likely the wrong window location
 export function getCookieDomainUrl() {
   try {
     return window.location.hostname
@@ -8,6 +9,7 @@ export function getCookieDomainUrl() {
   return '';
 }
 
+// TODO: This is likely the wrong window location
 export function getRedirectUri(uri) {
   try {
     return (!isUndefined(uri))
