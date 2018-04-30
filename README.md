@@ -1,18 +1,20 @@
-# XAuth2 - Electron OAuth2 Client
+## XAuth2 - Electron OAuth2 Client
 
-A Fork of vue-authenticate that (hopefully) works in Electron.
 
----------------------
+![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)
 
-**vue-authenticate** is easily configurable solution for [Vue.js](https://vuejs.org/) that provides local login/registration as well as Social login using Github, Facebook, Google and other OAuth providers.
+A Fork of vue-authenticate that (hopefully) works in Electron. 
 
+---
+
+**XAuth2** is easily configurable solution for [Vue.js](https://vuejs.org/) that provides local login/registration as well as Social login using Github, Facebook, Google and other OAuth providers (see below).
 
 
 The best part about this library is that it is not strictly coupled to one request handling library like [vue-axios](https://github.com/imcvampire/vue-axios). You will be able to use it with different libraries. 
 
 For now it is tested to work with  [vue-resource](https://github.com/pagekit/vue-resource) and [axios](https://github.com/mzabriskie/axios) (using [vue-axios](https://github.com/imcvampire/vue-axios) wrapper).
 
-**WARNING:** From version 1.3.0 default request library is `axios` using `vue-axios` wrapper plugin.
+**NOTE:** Version 1.3.0+ default request library is `axios` with the `vue-axios` wrapper plugin.
 
 This library was inspired by well known authentication library for Angular called [Satellizer](https://github.com/sahat/satellizer) developed by [Sahat Yalkabov](http://sahatyalkabov.com). They share almost identical configuration and API so you can easily switch from Angular to Vue.js project.
 
@@ -26,17 +28,23 @@ This library was inspired by well known authentication library for Angular calle
 6. Bitbucket (https://github.com/dgrubelic/vue-authenticate/blob/master/src/options.js#L81)
 7. LinkedIn (https://github.com/dgrubelic/vue-authenticate/blob/master/src/options.js#L93)
 8. Microsoft Live (https://github.com/dgrubelic/vue-authenticate/blob/master/src/options.js#L106)
+9. YouTube by [kieraneglin](https://github.com/kieraneglin)
+10. Twitch by [kieraneglin](https://github.com/kieraneglin)
+11. StreamLabs by [kieraneglin](https://github.com/kieraneglin)
+12. StreamTip by [kieraneglin](https://github.com/kieraneglin)
+13. Stripe by [kieraneglin](https://github.com/kieraneglin)
 
 ## Installation
 ```bash
-npm install vue-authenticate
+npm install xauth2
 ```
 
 ## Usage
+
 ```javascript
-import Vue from 'vue'
-import VueAxios from 'vue-axios'
-import VueAuthenticate from 'vue-authenticate'
+import Vue from 'vue';
+import VueAxios from 'vue-axios';
+import VueAuthenticate from 'vue-authenticate'; 
 import axios from 'axios';
 
 Vue.use(VueAxios, axios)
@@ -46,34 +54,35 @@ Vue.use(VueAuthenticate, {
   providers: {
     github: {
       clientId: '',
-      redirectUri: 'http://localhost:8080/auth/callback' // Your client app URL
-    }
-  }
+      redirectUri: 'http://localhost:8080/auth/callback', // Your client app URL
+    },
+  },
 })
 ```
 
 ### Email & password login and registration
+
 ```javascript
 new Vue({
   methods: {
     login: function () {
-      this.$auth.login({ email, password }).then(function () {
+      this.$auth.login({ this.email, this.password }).then(() => {
         // Execute application logic after successful login
       })
     },
 
     register: function () {
-      this.$auth.register({ name, email, password }).then(function () {
+      this.$auth.register({ this.name, this.email, this.password }).then(() => {
         // Execute application logic after successful registration
-      })
+      });
     }
   }
 })
 ```
 
 ```html
-<button @click="login()">Login</button>
-<button @click="register()">Register</button>
+<button @click="login">Login</button>
+<button @click="register">Register</button>
 ```
 
 ### Social account authentication
@@ -82,9 +91,9 @@ new Vue({
 new Vue({
   methods: {
     authenticate: function (provider) {
-      this.$auth.authenticate(provider).then(function () {
+      this.$auth.authenticate(provider).then(() => {
         // Execute application logic after successful social authentication
-      })
+      });
     }
   }
 })
@@ -174,7 +183,7 @@ export default new Vuex.Store({
 })
 ```
 
-Later in Vue component, you can dispatch Vuex state action like this
+Later in Vue component, you can dispatch Vuex state action like this:
 
 ```javascript
 // You define your store logic here
@@ -201,12 +210,11 @@ new Vue({
 
 You can easily setup custom request and response interceptors if you use different request handling library.
 
-**Important**: You must set both `request` and `response` interceptors at all times.
+**Important**: You must always set both `request` and `response` interceptors.
 
 ```javascript
-
 /**
-* This is example for request and response interceptors for axios library
+* This is an example request & response interceptors for axios library
 */
 
 Vue.use(VueAuthenticate, {
@@ -222,7 +230,7 @@ Vue.use(VueAuthenticate, {
       return config
     })
   },
-
+  
   bindResponseInterceptor: function () {
     this.$http.interceptors.response.use((response) => {
       this.setToken(response)
@@ -232,26 +240,3 @@ Vue.use(VueAuthenticate, {
 })
 
 ```
-
-## License
-
-The MIT License (MIT)
-
-Copyright (c) 2017 Davor Grubelić
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
