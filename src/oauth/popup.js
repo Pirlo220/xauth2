@@ -38,10 +38,7 @@ export default class OAuthPopup {
   // Check if Authentication has completed
   pooling(redirectUri) {
     return new Promise((resolve, reject) => {
-      const redirectUriParser = document.createElement('a')
-      redirectUriParser.href = redirectUri
-      // const redirectUriPath = getFullUrlPath(redirectUriParser)
-      const redirectUriPath = redirectUri
+      const redirectUriPath = getFullUrlPath(redirectUri);
 
       let poolingInterval = setInterval(() => {
         if (!this.popup || this.popup.closed || this.popup.closed === undefined) {
@@ -72,24 +69,25 @@ export default class OAuthPopup {
               reject(new Error('OAuth redirect has occurred but no query or hash parameters were found.'))
             }
 
-            clearInterval(poolingInterval)
-            poolingInterval = null
-            this.popup.close()
+            // alert('hi');
+            clearInterval(poolingInterval);
+            poolingInterval = null;
+            this.popup.close();
           }
         } catch(e) {
           // Ignore DOMException: Blocked a frame with origin from accessing a cross-origin frame.
         }
-      }, 250)
+      }, 250);
     })
   }
 
   _stringifyOptions() {
-    let options = []
+    let options = [];
     for (var optionKey in this.popupOptions) {
       if (!isUndefined(this.popupOptions[optionKey])) {
-        options.push(`${optionKey}=${this.popupOptions[optionKey]}`)
+        options.push(`${optionKey}=${this.popupOptions[optionKey]}`);
       }
     }
-    return options.join(',')
+    return options.join(',');
   }
 }

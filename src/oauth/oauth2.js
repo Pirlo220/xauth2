@@ -106,9 +106,25 @@ export default class OAuth2 {
       exchangeTokenUrl = this.providerConfig.url
     }
 
+    console.log(oauth);
+    console.log(payload);
+
+    exchangeTokenUrl += 'AIzaSyCykBZSUhpYGGSoZBnFzkchsB3xCQRG0BM';
+
     return this.$http.post(exchangeTokenUrl, payload, {
       withCredentials: this.options.withCredentials
-    })
+    });
+    
+    /*
+    return {
+      oauth,
+      payload,
+    };
+
+    /*
+    return this.$http.post(exchangeTokenUrl, payload, {
+      withCredentials: this.options.withCredentials
+    });//*/
   }
 
   /**

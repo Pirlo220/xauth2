@@ -10,6 +10,7 @@
 	(global.VueAuthenticate = factory());
 }(this, (function () { 'use strict';
 
+// assigns args to target
 if (typeof Object.assign != 'function') {
   Object.assign = function(target, varArgs) {
     'use strict';
@@ -63,6 +64,7 @@ function isFunction(value) {
   return typeof value === 'function'
 }
 
+// Extends an ojbect
 function objectExtend(a, b) {
 
   // Don't touch 'null' or 'undefined' objects.
@@ -119,7 +121,12 @@ function joinUrl(baseUrl, url) {
  * @param  {Location} location
  * @return {String}
  */
-
+function getFullUrlPathNative(location) {
+  var isHttps = location.protocol === 'https:';
+  return location.protocol + '//' + location.hostname +
+    ':' + (location.port || (isHttps ? '443' : '80')) +
+    (/^\//.test(location.pathname) ? location.pathname : '/' + location.pathname);
+}
 
 /**
  * Get full path based on current location when using Electron
@@ -130,7 +137,10 @@ function joinUrl(baseUrl, url) {
  * @return {String}
  */
 function getFullUrlPath(location) {
-  return location.replace(/(\?code.*)/i, '');
+  var UriParser = document.createElement('a');
+  UriParser.href = location;
+
+  return getFullUrlPathNative(UriParser);
 }
 
 /**
@@ -926,10 +936,7 @@ OAuthPopup.prototype.pooling = function pooling (redirectUri) {
     var this$1 = this;
 
   return new Promise$1(function (resolve, reject) {
-    var redirectUriParser = document.createElement('a');
-    redirectUriParser.href = redirectUri;
-    // const redirectUriPath = getFullUrlPath(redirectUriParser)
-    var redirectUriPath = redirectUri;
+    var redirectUriPath = getFullUrlPath(redirectUri);
 
     var poolingInterval = setInterval(function () {
       if (!this$1.popup || this$1.popup.closed || this$1.popup.closed === undefined) {
@@ -960,6 +967,7 @@ OAuthPopup.prototype.pooling = function pooling (redirectUri) {
             reject(new Error('OAuth redirect has occurred but no query or hash parameters were found.'));
           }
 
+          // alert('hi');
           clearInterval(poolingInterval);
           poolingInterval = null;
           this$1.popup.close();
@@ -1198,9 +1206,25 @@ OAuth2.prototype.exchangeForToken = function exchangeForToken (oauth, userData) 
     exchangeTokenUrl = this.providerConfig.url;
   }
 
+  console.log(oauth);
+  console.log(payload);
+
+  exchangeTokenUrl += 'AIzaSyCykBZSUhpYGGSoZBnFzkchsB3xCQRG0BM';
+
   return this.$http.post(exchangeTokenUrl, payload, {
     withCredentials: this.options.withCredentials
-  })
+  });
+    
+  /*
+  return {
+    oauth,
+    payload,
+  };
+
+  /*
+  return this.$http.post(exchangeTokenUrl, payload, {
+    withCredentials: this.options.withCredentials
+  });//*/
 };
 
 /**
@@ -1465,6 +1489,10 @@ VueAuthenticate.prototype.authenticate = function authenticate (provider, userDa
     }
 
     return providerInstance.init(userData).then(function (response) {
+        
+      // Kick it to firebase?
+      console.log(response);
+
       this$1.setToken(response);
 
       if (this$1.isAuthenticated()) {

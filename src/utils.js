@@ -1,3 +1,5 @@
+
+// assigns args to target
 if (typeof Object.assign != 'function') {
   Object.assign = function(target, varArgs) {
     'use strict';
@@ -53,6 +55,7 @@ export function isFunction(value) {
   return typeof value === 'function'
 }
 
+// Extends an ojbect
 export function objectExtend(a, b) {
 
   // Don't touch 'null' or 'undefined' objects.
@@ -125,7 +128,10 @@ export function getFullUrlPathNative(location) {
  * @return {String}
  */
 export function getFullUrlPath(location) {
-  return location.replace(/(\?code.*)/i, '');
+  const UriParser = document.createElement('a');
+  UriParser.href = location;
+
+  return getFullUrlPathNative(UriParser);
 }
 
 /**

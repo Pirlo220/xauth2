@@ -217,6 +217,10 @@ export default class VueAuthenticate {
       }
 
       return providerInstance.init(userData).then((response) => {
+        
+        // Kick it to firebase?
+        console.log(response);
+
         this.setToken(response)
 
         if (this.isAuthenticated()) {
