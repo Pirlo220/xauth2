@@ -21,10 +21,10 @@ const defaultProviderConfig = {
   responseParams: {
     code: 'code',
     clientId: 'clientId',
-    redirectUri: 'redirectUri'
+    redirectUri: 'redirectUri',
   },
   oauthType: '2.0',
-  popupOptions: {}
+  popupOptions: {},
 }
 
 export default class OAuth2 {
@@ -44,7 +44,8 @@ export default class OAuth2 {
       this.storage.setItem(stateName, this.providerConfig.state)
     }
 
-    let url = [this.providerConfig.authorizationEndpoint, this._stringifyRequestParams()].join('?')
+    let url = [this.providerConfig.authorizationEndpoint, this._stringifyRequestParams()].join('?');
+    url += '&prompt=select_account';
 
     this.oauthPopup = new OAuthPopup(url, this.providerConfig.name, this.providerConfig.popupOptions)
     
@@ -106,21 +107,13 @@ export default class OAuth2 {
       exchangeTokenUrl = this.providerConfig.url
     }
 
-    console.log(oauth);
-    console.log(payload);
+    exchangeTokenUrl = 'http://api.xauth2.com/api/auth/token';
 
-    exchangeTokenUrl += 'AIzaSyCykBZSUhpYGGSoZBnFzkchsB3xCQRG0BM';
-
-    return this.$http.post(exchangeTokenUrl, payload, {
+    return this.$http.get(exchangeTokenUrl, {params: { code: payload.code }}, {
+      headers: { 'Access-Control-Allow-Origin': '*' },
       withCredentials: this.options.withCredentials
     });
     
-    /*
-    return {
-      oauth,
-      payload,
-    };
-
     /*
     return this.$http.post(exchangeTokenUrl, payload, {
       withCredentials: this.options.withCredentials

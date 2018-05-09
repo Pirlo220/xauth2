@@ -85,6 +85,14 @@ export default class VueAuthenticate {
   }
 
   /**
+   * Get Id token if user is authenticated
+   * @return {String} Id token
+   */
+  getIdToken() {
+    return this.storage.getItem('id_token');
+  }
+
+  /**
    * Set new authentication token
    * @param {String|Object} token
    */
@@ -94,20 +102,26 @@ export default class VueAuthenticate {
     }
     
     let token;
+    let id_token;
     if (response.access_token) {
       if (isObject(response.access_token) && isObject(response.access_token[this.options.responseDataKey])) {
-        response = response.access_token
+        response = response.access_token;
       } else if (isString(response.access_token)) {
-        token = response.access_token
+        token = response.access_token;
+        id_token = response.id_token;
       }
     }
 
     if (!token && response) {
-      token = response[this.options.tokenName]
+      token = response[this.options.tokenName];
     }
 
     if (token) {
-      this.storage.setItem(this.tokenName, token)
+      this.storage.setItem(this.tokenName, token);
+    }
+
+    if (id_token) {
+      this.storage.setItem('id_token', id_token);
     }
   }
 
@@ -217,8 +231,7 @@ export default class VueAuthenticate {
       }
 
       return providerInstance.init(userData).then((response) => {
-        
-        // Kick it to firebase?
+
         console.log(response);
 
         this.setToken(response)

@@ -69,7 +69,6 @@ export default class OAuthPopup {
               reject(new Error('OAuth redirect has occurred but no query or hash parameters were found.'))
             }
 
-            // alert('hi');
             clearInterval(poolingInterval);
             poolingInterval = null;
             this.popup.close();

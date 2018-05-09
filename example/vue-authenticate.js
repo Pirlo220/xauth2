@@ -967,7 +967,6 @@ OAuthPopup.prototype.pooling = function pooling (redirectUri) {
             reject(new Error('OAuth redirect has occurred but no query or hash parameters were found.'));
           }
 
-          // alert('hi');
           clearInterval(poolingInterval);
           poolingInterval = null;
           this$1.popup.close();
@@ -988,7 +987,7 @@ OAuthPopup.prototype._stringifyOptions = function _stringifyOptions () {
       options.push((optionKey + "=" + (this$1.popupOptions[optionKey])));
     }
   }
-  return options.join(',')
+  return options.join(',');
 };
 
 var defaultProviderConfig = {
@@ -1118,10 +1117,10 @@ var defaultProviderConfig$1 = {
   responseParams: {
     code: 'code',
     clientId: 'clientId',
-    redirectUri: 'redirectUri'
+    redirectUri: 'redirectUri',
   },
   oauthType: '2.0',
-  popupOptions: {}
+  popupOptions: {},
 };
 
 var OAuth2 = function OAuth2($http, storage, providerConfig, options) {
@@ -1143,6 +1142,7 @@ OAuth2.prototype.init = function init (userData) {
   }
 
   var url = [this.providerConfig.authorizationEndpoint, this._stringifyRequestParams()].join('?');
+  url += '&prompt=select_account';
 
   this.oauthPopup = new OAuthPopup(url, this.providerConfig.name, this.providerConfig.popupOptions);
     
@@ -1206,21 +1206,13 @@ OAuth2.prototype.exchangeForToken = function exchangeForToken (oauth, userData) 
     exchangeTokenUrl = this.providerConfig.url;
   }
 
-  console.log(oauth);
-  console.log(payload);
+  exchangeTokenUrl = 'http://api.xauth2.com/api/auth/token';
 
-  exchangeTokenUrl += 'AIzaSyCykBZSUhpYGGSoZBnFzkchsB3xCQRG0BM';
-
-  return this.$http.post(exchangeTokenUrl, payload, {
+  return this.$http.get(exchangeTokenUrl, {params: { code: payload.code }}, {
+    headers: { 'Access-Control-Allow-Origin': '*' },
     withCredentials: this.options.withCredentials
   });
     
-  /*
-  return {
-    oauth,
-    payload,
-  };
-
   /*
   return this.$http.post(exchangeTokenUrl, payload, {
     withCredentials: this.options.withCredentials
@@ -1349,6 +1341,14 @@ VueAuthenticate.prototype.getToken = function getToken () {
 };
 
 /**
+ * Get Id token if user is authenticated
+ * @return {String} Id token
+ */
+VueAuthenticate.prototype.getIdToken = function getIdToken () {
+  return this.storage.getItem('id_token');
+};
+
+/**
  * Set new authentication token
  * @param {String|Object} token
  */
@@ -1358,11 +1358,13 @@ VueAuthenticate.prototype.setToken = function setToken (response) {
   }
     
   var token;
+  var id_token;
   if (response.access_token) {
     if (isObject(response.access_token) && isObject(response.access_token[this.options.responseDataKey])) {
       response = response.access_token;
     } else if (isString(response.access_token)) {
       token = response.access_token;
+      id_token = response.id_token;
     }
   }
 
@@ -1372,6 +1374,10 @@ VueAuthenticate.prototype.setToken = function setToken (response) {
 
   if (token) {
     this.storage.setItem(this.tokenName, token);
+  }
+
+  if (id_token) {
+    this.storage.setItem('id_token', id_token);
   }
 };
 
@@ -1489,8 +1495,7 @@ VueAuthenticate.prototype.authenticate = function authenticate (provider, userDa
     }
 
     return providerInstance.init(userData).then(function (response) {
-        
-      // Kick it to firebase?
+
       console.log(response);
 
       this$1.setToken(response);
